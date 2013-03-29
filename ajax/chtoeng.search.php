@@ -1,5 +1,4 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'] . '/admin/config.php');
 
 // if the 'term' variable is not sent with the request, exit
 if ( !isset($_REQUEST['term']) )
@@ -11,16 +10,31 @@ mysql_select_db('database_name');
 */
  
 // query the database table for zip codes that match 'term'
-$forms = dbFetchRows("SELECT id, name FROM Form where name LIKE '%". mysql_real_escape_string($_REQUEST['term']) ."%' ORDER BY name ASC limit 0, 10");
+//$forms = dbFetchRows("SELECT id, name FROM Form where name LIKE '%". mysql_real_escape_string($_REQUEST['term']) ."%' ORDER BY name ASC limit 0, 10");
+$results = array(
+	array(
+		'id' => 1,
+		'name' => 'Steve Wu'
+	),
+	array(
+		'id' => 2,
+		'name' => 'Jackie Chan'
+	),
+	array(
+		'id' => 3,
+		'name' => 'Jet Li'
+	),
+);
+
  
 // loop through each zipcode returned and format the response for jQuery
 $data = array();
 
 if (count($forms)) {
-	foreach ($forms as $form) {
+	foreach ($results as $result) {
 		$data[] = array(
-			'label' => $form['id'] . ' - ' . $form['name'],
-			'value' => $form['name']
+			'label' => $result['id'] . ' - ' . $result['name'],
+			'value' => $result['name']
 		);
 	}
 }
