@@ -56,9 +56,10 @@ $file = '';
 foreach ($formattedWord as $post) {
 	//$post['tc'] = str_replace("\"", "'", $post['tc']);
 	$post['tc'] = trim($post['tc']);
-	$data = array($post['tc'], $post['sc'], $post['eng']);
+	$post['eng1'][] = str_replace(array("\r\n", "\r", "\n"), "", $post['eng']);
+	$data = array($post['tc'], $post['sc'], json_encode($post['eng']));
 
-	$file .= '%'.$num.'%,%'.$post['tc'].'%,%%,%'.$post['eng'].'%'."$$";
+	$file .= '%'.$num.'%,%'.$post['tc'].'%,%%,%'.json_encode($post['eng1']).'%'."$$";
 
 	//$file .= '%' . implode('%,%', $data) . '%';
 	//$file .= "";
