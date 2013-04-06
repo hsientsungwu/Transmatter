@@ -115,8 +115,10 @@ class MySQL {
 	 * ******************/
 	
 	// Executes MySQL query
-	function ExecuteSQL($query){
+	function ExecuteSQL($query, $type = 'filter'){
 		$this->lastQuery 	= $query;
+		mysql_query('set names utf8');
+
 		if($this->result 	= mysql_query($query, $this->databaseLink)){
 			$this->records 	= @mysql_num_rows($this->result);
 			$this->affected	= @mysql_affected_rows($this->databaseLink);
@@ -283,7 +285,8 @@ class MySQL {
 		
 		if($this->records == 1){
 			$data = $this->ArrayResult();
-			return array($data);
+			$this->arrayedResult = array($data);
+			return $this->arrayedResult;
 		}
 		
 		$this->arrayedResult = array();
@@ -293,7 +296,7 @@ class MySQL {
 			$this->arrayedResult[] = $data;
 			$data = mysql_fetch_assoc($this->result);
 		}
-	
+
 		return $this->arrayedResult;
 	}
 	

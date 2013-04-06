@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	$('#id_key').autocomplete({
 		source: '/ajax/chtoeng.autocomplete.php', 
-		minLength: 2
+		minLength: 1
 	});
 
 	$('#id_searchform').submit(function (e) {
