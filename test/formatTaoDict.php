@@ -54,7 +54,7 @@ $num = 0;
 $file = '';
 
 foreach ($formattedWord as $post) {
-	//$post['tc'] = str_replace("\"", "'", $post['tc']);
+	$post['eng'] = str_replace("\"", "", $post['eng']);
 	$post['tc'] = trim($post['tc']);
 	$post['eng1'][] = str_replace(array("\r\n", "\r", "\n"), "", $post['eng']);
 	$data = array($post['tc'], $post['sc'], json_encode($post['eng']));

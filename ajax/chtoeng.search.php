@@ -26,7 +26,7 @@ if (count($results) > 0 && is_array($results)) {
 		$resultString .= '<p>';
 		$eng = json_decode(($result['eng']));
 
-		$resultString .= implode(', ', $eng);
+		$resultString .= @implode(', ', $eng);
 
 		$resultString .= '</p>';
 	}
