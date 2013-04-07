@@ -31,4 +31,23 @@ $(document).ready(function(){
 			$('.result-message').html("Search key cannot be blank");
 		}
 	});
+
+	$('.results').on('click', 'a.reportbug', function(e) {
+		e.preventDefault();
+
+		var rel = $(this).attr('rel');
+
+		$.ajax({
+		  	type: "POST",
+		  	url: "/ajax/report.bug.php",
+		  	data: "rel="+rel,
+		  	datatype: "HTML",
+		  	success: function(html) {
+		  		$('#'+rel).html(html);
+		  	},
+		  	error: function() {
+		  		$('#'+rel).html("Unable to retrieve result from the server");
+		  	}
+		});
+	});
 });

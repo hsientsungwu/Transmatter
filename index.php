@@ -10,19 +10,30 @@ header("Content-Type: text/html; charset=utf-8");
 		<script type="text/javascript" src="/js/jqueryui/jquery-ui-1.10.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/application.js"></script>
 		<link rel="stylesheet" href="/css/jqueryui/ui-lightness/jquery-ui-1.10.2.custom.min.css">
+		<meta charset="utf-8" />
+  		<meta name="viewport" content="width=device-width" />
+  		<link rel="stylesheet" href="css/foundation/normalize.css" />
+  		<link rel="stylesheet" href="css/foundation/foundation.css" />
+  		<script src="js/vendor/custom.modernizr.js"></script>
 	</head>
 	<body>
-		<div class="search-bar-container">
-			<form id="id_searchform" >
-				<label for="key">Search word here:</label>
-				<input type="text" name="key" id="id_key" />
-				<input type="submit" />
-			</form>
+		<div class="row">
+		  	<div class="small-6 small-centered columns">
+		  		<h3 style="text-align: center;">Chinese English Translation</h3>
+		  	</div>
 		</div>
-		<div class="result-container">
-			<h4>Result:</h4>
-			<div class="result-message"></div>
-			<div class="results"></div>
+		<div class="row">
+		  	<div class="small-6 small-centered columns search-bar-container">
+		  		<form id="id_searchform" >
+		  			<input type="text" class="large" id="id_key" placeholder="Enter your search here ... ">
+				</form>
+		  	</div>
+		</div>
+		<div class="row">
+			<div class="small-6 small-centered columns">
+		  		<div class="result-message"></div>
+				<div class="results"></div>
+		  	</div>
 		</div>
 	</body>
 </html>

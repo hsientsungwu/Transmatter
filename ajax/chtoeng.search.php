@@ -7,10 +7,10 @@ require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
 $key = mysql_escape_string($key);
 
-$query = "SELECT * FROM ce WHERE tc = '{$key}'";
+$query = "SELECT id, tc, eng, 'ce' as source FROM ce WHERE tc = '{$key}'";
 $results1 = $db->ExecuteSQL($query);
 
-$query = "SELECT * FROM tao_ce WHERE tc = '{$key}'";
+$query = "SELECT id, tc, eng, 'tao_ce' as source FROM tao_ce WHERE tc = '{$key}'";
 $results2 = $db->ExecuteSQL($query);
 
 if (!is_array($results1)) $results1 = array();
@@ -29,6 +29,8 @@ if (count($results) > 0 && is_array($results)) {
 		$resultString .= @implode(', ', $eng);
 
 		$resultString .= '</p>';
+
+		$resultString .= '<p id="' . $result['source'] . '-' . $result['id'] .'"><a class="reportbug" rel="' . $result['source'] . '-' . $result['id'] .'" href="#">Report a bug</a></p>';
 	}
 } else {
 	$resultString .= '<p>No result found.</p>';
