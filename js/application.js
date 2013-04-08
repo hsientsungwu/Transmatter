@@ -4,6 +4,16 @@ $(document).ready(function(){
 		minLength: 1
 	});
 
+	$('#id_key').bind('keypress', function(e) {
+		var code = (e.keyCode ? e.keyCode : e.which);
+		console.log('1234');
+		if(code == 27) { 
+			console.log('asdf');
+			$('#id_key').autocomplete("search");
+			$('#id_key').autocomplete("close");
+		}
+	});
+
 	$('#id_searchform').submit(function (e) {
 		e.preventDefault();
 
