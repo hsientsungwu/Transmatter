@@ -1,13 +1,22 @@
 <?php
 
 require $_SERVER['DOCUMENT_ROOT'] . '/class/dictimport.class.php';
+header("Content-Type: text/html; charset=utf-8");
+
+$dictionaries = array(
+	array(
+		'zip' => 'stardict-cdict-big5-2.4.2.zip',
+		'name' => 'cdict-big5',
+		'table' => 'cdict-big5'
+	),
+);
 
 $dictimport = new DictImport();
 
-$zip = 'stardict-cdict-big5-2.4.2.zip';
-$folder = 'stardict-cdict-big5-2.4.2';
-$table = 'stardict-cdict-big5-2.4.2';
+foreach ($dictionaries as $dict) {
+	$result = $dictimport->execute($dict['zip'], $dict['name'], $dict['table']);
 
-$result = $dictimport->execute($zip, 'cdict-big5', 'cdict-big5');
-
-var_dump($result);
+	echo '<p><label>' . $dict['zip'] . '</label><br/>';
+	echo '<label>Status : ' . ($result['success'] ? 'Success' : 'Failed') . '</label><br/>'; 
+	echo '<label>Message : ' . $result['message'] . '</label></p>';
+}

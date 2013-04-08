@@ -13,7 +13,6 @@ class DictImport {
 	private $directory;
 
 	public function execute($zip = null, $name = null, $table = null) {
-		
 		$this->dict_zip = $_SERVER['DOCUMENT_ROOT'] . '/resources/import_zip/' . $zip;
 
 		if (!file_exists($this->dict_zip)) return array('success' => false, 'message' => 'Zip file not found');
@@ -28,9 +27,14 @@ class DictImport {
 				$this->dict_idx = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.idx';
 				$this->dict_file = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.dict.dz';
 
+				//$this->createTable();
 				$result = $this->import();
 
-				return array('success' => true, 'message' => 'Unzip successfully');
+				if ($result != 0) {
+					return array('success' => true, 'message' => 'Total of ' . $result . ' records imported');
+				} else {
+					return array('success' => true, 'message' => 'Unzip successfully but failed to import');
+				}
 			} else {
 				return array('success' => false, 'message' => 'Unable to perform unzip aciton');
 			}
@@ -61,7 +65,7 @@ class DictImport {
 		if (!file_exists($this->dict_info)) return false;
 		if (!file_exists($this->dict_idx)) return false;
 		if (!file_exists($this->dict_file)) return false;
-		
+
 		global $db;
 
 		$idx_file = $this->dict_idx;
@@ -89,7 +93,6 @@ class DictImport {
 				if ($ch == "\0" || gzeof($fd_idx) || $max_word-- <= 0) break;
 				$word .= $ch;
 			}
-			//echo $word."<br/>";
 
 			// Read offset from index
 			$start = unpack("I",strrev(gzread($fd_idx,4))); $start=$start[1];
@@ -98,6 +101,8 @@ class DictImport {
 			// Read article text
 			gzseek($fd_dict,$start);
 			$text = gzread ($fd_dict,$len);
+
+			//$text = $this->formatText($text);
 
 			$data = array(
 				"eng" => $word,
@@ -108,8 +113,42 @@ class DictImport {
 			$db->insert($data, $this->dict_table);
 			$count++;
 		} while (!gzeof($fd_idx));
-var_dump($count);
+
 		gzclose($fd_idx);
 		gzclose($fd_dict);
+
+		return $count;
+	}
+
+	protected function formatText($text) {
+		$text = str_replace('�', "\n", $text);
+		$rows = explode("\n", $text);
+		$meaning = array();
+		$count = 0;
+		foreach ($rows as $row) {
+			if (preg_match("/^< /", $row)) {
+				$meaning[$count] = $string;
+				$count++;
+				$string = $row;
+			} else {
+				$string .= $row . "\n";
+			}
+		}
+
+		return $meaning;
+	}
+
+	protected function createTable() {
+		global $db;
+
+		$query = "CREATE TABLE  `hwu1986_translation`.`" . $this->dict_table ."` (
+			`id` INT( 25 ) NOT NULL AUTO_INCREMENT ,
+			 `tc` VARCHAR( 256 ) CHARACTER SET utf8 NOT NULL ,
+			 `sc` VARCHAR( 128 ) COLLATE utf8_unicode_ci NOT NULL ,
+			 `eng` VARCHAR( 256 ) COLLATE utf8_unicode_ci NOT NULL ,
+			PRIMARY KEY (  `id` )
+			) ENGINE = MYISAM DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;";
+	
+		$db->ExecuteSQL($query);
 	}
 }
