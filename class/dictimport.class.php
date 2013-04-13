@@ -26,7 +26,8 @@ class DictImport {
 				$this->dict_idx = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.idx';
 				$this->dict_file = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.dict.dz';
 
-				//$this->createTable();
+				if (!$this->isTableExists()) $this->createImportTable();
+
 				$result = $this->import();
 
 				if ($result != 0) {
@@ -42,6 +43,18 @@ class DictImport {
 		}
 	}
 
+	public function close () {
+		$this->dict_name = '';
+		$this->dict_zip = '';
+	 	$this->dict_folder = '';
+	 	$this->dict_table = '';
+	 	$this->dict_info = '';
+	 	$this->dict_idx = '';
+	 	$this->dict_file = '';
+	 	$this->dict_type = 'stardict';
+	 	$this->directory = '';
+	}
+
 	protected function unzip() {
 		if (!is_dir($this->dict_folder)) {
 		    mkdir($this->dict_folder);
@@ -53,7 +66,6 @@ class DictImport {
 		if ($result === TRUE) {
 		    $zipArchive ->extractTo($this->dict_folder);
 		    $zipArchive ->close();
-		    
 		    return true;
 		} else {
 		    return false;
@@ -65,7 +77,7 @@ class DictImport {
 		if (!file_exists($this->dict_idx)) return false;
 		if (!file_exists($this->dict_file)) return false;
 
-		global $db;
+		global $dbFacile;
 
 		$idx_file = $this->dict_idx;
 		$info_file = $this->dict_info;
@@ -82,6 +94,7 @@ class DictImport {
 		$fd_idx = gzopen($idx_file,"rb");
 		$fd_dict = gzopen($dict_file,"rb");
 		$count = 0;
+
 		do {
 			// Read until \0
 			$word = ""; 
@@ -94,22 +107,20 @@ class DictImport {
 			}
 
 			// Read offset from index
-			$start = unpack("I",strrev(gzread($fd_idx,4))); $start=$start[1];
-			$len = unpack("I",strrev(gzread($fd_idx,4))); $len=$len[1];
+			$start = @unpack("I",strrev(gzread($fd_idx,4))); $start=$start[1];
+			$len = @unpack("I",strrev(gzread($fd_idx,4))); $len=$len[1];
 
 			// Read article text
 			gzseek($fd_dict,$start);
-			$text = gzread ($fd_dict,$len);
-
-			//$text = $this->formatText($text);
+			$text = @gzread($fd_dict,$len);
 
 			$data = array(
 				"eng" => $word,
-				"tc" => $text, 
-				"sc" => ''
+				"tch" => $text,
+				"isHtml" => ''
 			);
 
-			$db->insert($data, $this->dict_table);
+			$dbFacile->insert($data, $this->dict_table);
 			$count++;
 		} while (!gzeof($fd_idx));
 
@@ -119,35 +130,26 @@ class DictImport {
 		return $count;
 	}
 
-	protected function formatText($text) {
-		$text = str_replace('�', "\n", $text);
-		$rows = explode("\n", $text);
-		$meaning = array();
-		$count = 0;
-		foreach ($rows as $row) {
-			if (preg_match("/^< /", $row)) {
-				$meaning[$count] = $string;
-				$count++;
-				$string = $row;
-			} else {
-				$string .= $row . "\n";
-			}
-		}
+	protected function isTableExists() {
+		global $dbFacile;
 
-		return $meaning;
+		$result = $dbFacile->fetchCell('SELECT COUNT(*) as count FROM information_schema.tables WHERE table_name = ?', array($this->dict_table));
+
+		return ($result >= 1 ) ? true : false;
 	}
 
-	protected function createTable() {
-		global $db;
+	protected function createImportTable() {
+		global $dbFacile;
 
-		$query = "CREATE TABLE  `hwu1986_translation`.`" . $this->dict_table ."` (
+		$query = 
+			"CREATE TABLE  `hwu1986_translation`.`" . $this->dict_table ."` (
 			`id` INT( 25 ) NOT NULL AUTO_INCREMENT ,
-			 `tc` VARCHAR( 256 ) CHARACTER SET utf8 NOT NULL ,
-			 `sc` VARCHAR( 128 ) COLLATE utf8_unicode_ci NOT NULL ,
-			 `eng` VARCHAR( 256 ) COLLATE utf8_unicode_ci NOT NULL ,
+			`tch` VARCHAR( 256 ) CHARACTER SET utf8 NOT NULL ,
+			`eng` VARCHAR( 256 ) COLLATE utf8_unicode_ci NOT NULL ,
+			`isHtml` INT (10) NULL,
 			PRIMARY KEY (  `id` )
 			) ENGINE = MYISAM DEFAULT CHARSET = utf8 COLLATE = utf8_unicode_ci;";
 	
-		$db->ExecuteSQL($query);
+		$dbFacile->execute($query);
 	}
 }

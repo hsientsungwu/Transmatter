@@ -1,13 +1,21 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/class/dictimport.class.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 $dictimport = new DictImport();
 
-$zip = 'stardict-cdict-big5-2.4.2.zip';
-$folder = 'stardict-cdict-big5-2.4.2';
-$table = 'stardict-cdict-big5-2.4.2';
+$dictionaries = array(
+	array(
+		'name' => 'cdict-big5',
+		'zip' => 'stardict-cdict-big5-2.4.2.zip',
+		'table' => 'cdict-big5',
+		'version' => '2.4.2'
+	),
+);
 
-$result = $dictimport->execute($zip, 'cdict-big5', 'cdict-big5');
+foreach ($dictionaries as $index => $dict) {
+	$result[$index]['import'] = $dictimport->execute($dict['zip'], $dict['name'], $dict['table']);
+	$dictimport->close();
+}
 
-var_dump($result);
+print_r($result);
