@@ -1,3 +1,3 @@
 <?php
 
-require $_SERVER['DOCUMENT_ROOT'] . '/../configs/master_config.php';
+require_once($_SERVER['DOCUMENT_ROOT'] . '/common/dict.core.php');

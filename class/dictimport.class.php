@@ -1,5 +1,4 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
 class DictImport {
 	private $dict_name;
