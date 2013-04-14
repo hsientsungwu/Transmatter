@@ -120,21 +120,22 @@ class StarDictImport {
 			gzseek($fd_dict,$start);
 			$text = @gzread($fd_dict,$len);
 
-			$text = $this->formatText($text);
-
 			if ($this->dict_name == 'eng-ch-eng-buddhist') {
+				$word = $this->formatText($word);
+
 				$data = array(
 					"tch" => $text,
 					"eng" => $word,
 				);
 			} else {
+				$text = $this->formatText($text);
+
 				$data = array(
 					"tch" => $word,
 					"eng" => $text,
 				);
 			}
 				
-
 			$dbFacile->insert($data, $this->dict_type . '_' .$this->dict_table);
 			$count++;
 		} while (!gzeof($fd_idx));
@@ -146,7 +147,7 @@ class StarDictImport {
 	}
 
 	protected function formatText($text) {
-		if ($this->dict_name == 'xdict-ce-utf8' || $this->dict_name == 'eng-ch-eng-buddhist') {
+		if ($this->dict_name) {
 			$result = explode("\n", $text);
 			return json_encode($result);
 		}
@@ -157,7 +158,7 @@ class StarDictImport {
 	protected function isTableExists() {
 		global $dbFacile;
 
-		$result = $dbFacile->fetchCell('SELECT COUNT(*) as count FROM information_schema.tables WHERE table_name = ?', array($this->dict_table));
+		$result = $dbFacile->fetchCell('SELECT COUNT(*) as count FROM information_schema.tables WHERE table_name = ?', array($this->dict_table.'_'.$this->dict_table));
 
 		return ($result >= 1 ) ? true : false;
 	}
@@ -179,7 +180,7 @@ class StarDictImport {
 	protected function addToDictionary() {
 		global $dbFacile;
 
-		$result = $dbFacile->fetchRow('SELECT * FROM dictionary WHERE name = ?', array($this->dict_name));
+		$result = $dbFacile->fetchRow('SELECT * FROM Dictionary WHERE name = ?', array($this->dict_name));
 
 		if ($result) {
 			$data = array(
@@ -193,15 +194,12 @@ class StarDictImport {
 				'name' => $this->dict_table,
 				'table_name' => $this->dict_type . "_" . $this->dict_table,
 				'version' => $this->version,
+				'type' => TranslationType::CHTOENG,
 				'created_date' => date('Y-m-d H:i:s'),
 				'imported_date' => date('Y-m-d H:i:s')
 			);
 
-			$dbFacile->insert($data, 'dictionary');
+			$dbFacile->insert($data, 'Dictionary');
 		}
-	}
-
-	protected function getImportDocumentRoot() {
-		return $_SERVER['DOCUMENT_ROOT'] . '/resources/import_dict/';
 	}
 }

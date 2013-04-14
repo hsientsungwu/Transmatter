@@ -16,7 +16,7 @@ if ($raw[0] && is_numeric($raw[1])) {
 
 	$data = array('table' => $table, 'word_id' => $wordId, 'status' => 'pending');
 
-	$result = $db->insert($data, 'word_bug');
+	$result = $dbFacile->insert($data, 'word_bug');
 
 	if ($result) {
 		echo 'Bug reported. Thank you for your input';

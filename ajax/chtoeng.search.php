@@ -7,33 +7,32 @@ require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
 $key = mysql_escape_string($key);
 
-$query = "SELECT id, tc, eng, 'ce' as source FROM ce WHERE tc = '{$key}'";
-$results1 = $db->ExecuteSQL($query);
-
-$query = "SELECT id, tc, eng, 'tao_ce' as source FROM tao_ce WHERE tc = '{$key}'";
-$results2 = $db->ExecuteSQL($query);
-
-if (!is_array($results1)) $results1 = array();
-if (!is_array($results2)) $results2 = array();
-
-$results = array_merge($results1, $results2);
-
 $resultString = '<label>' . $key . '</label>';
 
-if (count($results) > 0 && is_array($results)) {
+$results = searchForEnglish($key);
 
+if (count($results) > 0) {
 	foreach ($results as $index => $result) {
-		$resultString .= '<p>';
-		$eng = json_decode(($result['eng']));
+		if (empty($result)) continue;
 
-		$resultString .= @implode(', ', $eng);
+		$eng = $result['english'];
 
-		$resultString .= '</p>';
+		if ($result['format'] == DictionaryFormat::JSON) {
+			$eng = json_decode($eng);
+		}
 
-		$resultString .= '<p id="' . $result['source'] . '-' . $result['id'] .'"><a class="reportbug" rel="' . $result['source'] . '-' . $result['id'] .'" href="#">Report a bug</a></p>';
+		$resultString .= '<div class="dictionaryList">Source: ' . $index. '<ul>';
+
+		foreach ($eng as $meaning) {
+			$resultString .= '<li>' . $meaning . '</li>';
+		}
+
+		$resultString .= '</ul>';
+		$resultString .= '<p id="ce_' . $index . '-' . $result['id'] .'"><a class="reportbug" rel="ce_' . $index . '-' . $result['id'] .'" href="#">Report a bug</a></p>';
+		$resultString .= '</div>';
 	}
 } else {
-	$resultString .= '<p>No result found.</p>';
+	$resultString .= '<label>No result found.</label>';
 }
 
 echo $resultString;

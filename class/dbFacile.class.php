@@ -225,7 +225,7 @@ abstract class dbFacile {
 	}
 
 	// Fill in question mark and pound (#) placeholders. No more named placeholders.
-	protected function makeQuery($sql, $parameters) {
+	public function makeQuery($sql, $parameters) {
 		// bypass extra logic if we have no parameters
 		if(sizeof($parameters) == 0) {
 			return $sql;

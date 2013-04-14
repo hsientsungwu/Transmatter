@@ -1,7 +1,7 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
-class DictSearch {
+class CeDictSearch {
 
 	protected $key = '';
 	protected $encodingType = 'tc';
