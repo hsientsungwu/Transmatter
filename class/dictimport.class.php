@@ -1,7 +1,7 @@
 <?php
 header("Content-Type: text/plain; charset=UTF-8"); 
 
-class DictImport {
+class StarDictImport {
 	private $dict_name;
 	private $dict_zip;
 	private $dict_folder;
@@ -9,24 +9,27 @@ class DictImport {
 	private $dict_info;
 	private $dict_idx;
 	private $dict_file;
-	private $dict_type = 'stardict';
-	private $directory;
+	private $dict_type = 'ce';
 	private $version;
 
 	public function execute($zip = null, $name = null, $table = null, $version = null) {
+
 		$this->dict_zip = $_SERVER['DOCUMENT_ROOT'] . '/resources/import_zip/' . $zip;
 
 		if (!file_exists($this->dict_zip)) return array('success' => false, 'message' => 'Zip file not found');
 
 		if ($this->dict_zip && $table && $name) {
+			// Assign parameters to class variable
 			$this->dict_folder = $_SERVER['DOCUMENT_ROOT'] . '/resources/import_dict/';
 			$this->dict_table = $table;
 			$this->dict_name = $name;
 			$this->version = $version;
 
+			// Perform unzip 
 			if ($this->unzip()) {
+				//  assign dictionary files
 				$this->dict_info = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.ifo';
-				$this->dict_idx = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.idx';
+				$this->dict_idx  = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.idx';
 				$this->dict_file = $this->dict_folder . str_replace('.zip', '', $zip) . '/' . $name . '.dict.dz';
 
 				if (!$this->isTableExists()) $this->createImportTable();
@@ -55,8 +58,6 @@ class DictImport {
 	 	$this->dict_info = '';
 	 	$this->dict_idx = '';
 	 	$this->dict_file = '';
-	 	$this->dict_type = 'stardict';
-	 	$this->directory = '';
 	}
 
 	protected function unzip() {
@@ -83,7 +84,7 @@ class DictImport {
 
 		global $dbFacile;
 		$dbFacile->execute('set names utf8');
-		
+
 		$idx_file = $this->dict_idx;
 		$info_file = $this->dict_info;
 		$dict_file = $this->dict_file;
@@ -121,12 +122,20 @@ class DictImport {
 
 			$text = $this->formatText($text);
 
-			$data = array(
-				"tch" => $word,
-				"eng" => $text,
-			);
+			if ($this->dict_name == 'eng-ch-eng-buddhist') {
+				$data = array(
+					"tch" => $text,
+					"eng" => $word,
+				);
+			} else {
+				$data = array(
+					"tch" => $word,
+					"eng" => $text,
+				);
+			}
+				
 
-			$dbFacile->insert($data, $this->dict_table);
+			$dbFacile->insert($data, $this->dict_type . '_' .$this->dict_table);
 			$count++;
 		} while (!gzeof($fd_idx));
 
@@ -137,7 +146,7 @@ class DictImport {
 	}
 
 	protected function formatText($text) {
-		if ($this->dict_name == 'xdict-ce-utf8') {
+		if ($this->dict_name == 'xdict-ce-utf8' || $this->dict_name == 'eng-ch-eng-buddhist') {
 			$result = explode("\n", $text);
 			return json_encode($result);
 		}
@@ -157,7 +166,7 @@ class DictImport {
 		global $dbFacile;
 
 		$query = 
-			"CREATE TABLE  `hwu1986_translation`.`" . $this->dict_table ."` (
+			"CREATE TABLE  `hwu1986_translation`.`" . $this->dict_type . "_" .  $this->dict_table ."` (
 			`id` INT( 25 ) NOT NULL AUTO_INCREMENT ,
 			`tch` VARCHAR( 256 ) CHARACTER SET utf8 NOT NULL ,
 			`eng` VARCHAR( 256 ) COLLATE utf8_unicode_ci NOT NULL ,
@@ -182,7 +191,7 @@ class DictImport {
 		} else {
 			$data = array(
 				'name' => $this->dict_table,
-				'table_name' => $this->dict_table,
+				'table_name' => $this->dict_type . "_" . $this->dict_table,
 				'version' => $this->version,
 				'created_date' => date('Y-m-d H:i:s'),
 				'imported_date' => date('Y-m-d H:i:s')
@@ -190,5 +199,9 @@ class DictImport {
 
 			$dbFacile->insert($data, 'dictionary');
 		}
+	}
+
+	protected function getImportDocumentRoot() {
+		return $_SERVER['DOCUMENT_ROOT'] . '/resources/import_dict/';
 	}
 }
