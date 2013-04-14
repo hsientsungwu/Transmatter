@@ -2,7 +2,6 @@
 
 if (!$_POST['chtoeng'] && $key != '') exit;
 
-header("Content-Type: text/html; charset=utf-8");
 require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
 $key = mysql_escape_string($key);

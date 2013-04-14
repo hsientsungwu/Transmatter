@@ -4,7 +4,6 @@ function searchForEnglish($key, $dictionaries = array()) {
 	if (!$key || strlen($key) == 0) return false;
 
 	global $dbFacile;
-	$dbFacile->execute('set names utf8');
 	$dictionaries = (!empty($dictionaries) ? $dictionaries : getDefaultDictionaries(TranslationType::CHTOENG));
 
 	$dataResult = array();
@@ -26,7 +25,6 @@ function searchForEnglishAutocomplete($key, $dictionaries = array()) {
 	if (!$key || strlen($key) == 0) return false;
 
 	global $dbFacile;
-	$dbFacile->execute('set names utf8');
 	$dictionaries = (!empty($dictionaries) ? $dictionaries : getDefaultDictionaries(TranslationType::CHTOENG));
 
 	$dataResult = array();

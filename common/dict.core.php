@@ -1,4 +1,7 @@
 <?php
+mb_internal_encoding('utf-8');
+header("Content-Type: text/html; charset=utf-8");
+
 // configuration
 require_once($_SERVER['DOCUMENT_ROOT'] . '/../configs/master_config.php');
 
@@ -31,3 +34,4 @@ function __autoload($className) {
 $mysql = new MysqlSetting();
 $dbFacile = new dbMysqli();
 $dbFacile->open($mysql->database, $mysql->username, $mysql->password, $mysql->host);
+$dbFacile->execute("SET CHARACTER SET utf8");

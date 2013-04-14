@@ -7,9 +7,9 @@ $dictimport = new StarDictImport();
 
 $dictionaries = array(
 	array(
-		'name' => 'lazyworm-ce-big5',
-		'zip' => 'stardict-lazyworm-ce-big5-2.4.2.zip',
-		'table' => 'lazyworm-ce-big5',
+		'name' => 'cedict-big5',
+		'zip' => 'stardict-cedict-big5-2.4.2.zip',
+		'table' => 'cedict-big5',
 		'version' => '2.4.2'
 	),
 );
@@ -37,6 +37,12 @@ $dictionaries = array(
 		'name' => 'lazyworm-ce-big5',
 		'zip' => 'stardict-lazyworm-ce-big5-2.4.2.zip',
 		'table' => 'lazyworm-ce-big5',
+		'version' => '2.4.2'
+	),
+	array(
+		'name' => 'cedict-big5',
+		'zip' => 'stardict-cedict-big5-2.4.2.zip',
+		'table' => 'cedict-big5',
 		'version' => '2.4.2'
 	),
 );

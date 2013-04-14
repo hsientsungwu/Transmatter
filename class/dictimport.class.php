@@ -1,5 +1,4 @@
 <?php
-header("Content-Type: text/plain; charset=UTF-8"); 
 
 class StarDictImport {
 	private $dict_name;
@@ -135,7 +134,7 @@ class StarDictImport {
 					"eng" => $text,
 				);
 			}
-				
+
 			$dbFacile->insert($data, $this->dict_type . '_' .$this->dict_table);
 			$count++;
 		} while (!gzeof($fd_idx));
@@ -148,8 +147,22 @@ class StarDictImport {
 
 	protected function formatText($text) {
 		if ($this->dict_name) {
-			$result = explode("\n", $text);
-			return json_encode($result);
+			if ($this->dict_name == 'lazyworm-ce-big5') {
+				$result = explode("; ", $text);
+			} else {
+				$result = explode("\n", $text);
+			}
+
+			if ($this->dict_name == 'ddbc.dingfubao') {
+				return $result;
+			} else {
+				if ($this->dict_name == 'cedict-big5') {
+					$result = str_replace('\\u0000', ": ", json_encode($result));
+					return $result;
+				}
+
+				return json_encode($result);
+			}
 		}
 
 		return $text;

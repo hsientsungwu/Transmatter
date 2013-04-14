@@ -5,7 +5,6 @@ if (!$_POST['rel']) {
 	die;
 }
 
-header("Content-Type: text/html; charset=utf-8");
 require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
 $raw = explode('-', $_POST['rel']);
