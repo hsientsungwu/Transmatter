@@ -14,6 +14,7 @@ header("Content-Type: text/html; charset=utf-8");
   		<meta name="viewport" content="width=device-width" />
   		<link rel="stylesheet" href="css/foundation/normalize.css" />
   		<link rel="stylesheet" href="css/foundation/foundation.css" />
+  		<link rel="stylesheet" href="css/dictionary_home.css" />
   		<script src="js/vendor/custom.modernizr.js"></script>
 	</head>
 	<body>
@@ -31,7 +32,9 @@ header("Content-Type: text/html; charset=utf-8");
 		</div>
 		<div class="row">
 			<div class="small-6 small-centered columns">
-		  		<div class="result-message"></div>
+				<div class="result-message"></div>
+			</div>
+			<div class="small-12 small-centered columns">
 				<div class="results"></div>
 		  	</div>
 		</div>

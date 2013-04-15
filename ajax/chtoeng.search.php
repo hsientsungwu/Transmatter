@@ -6,7 +6,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 
 $key = mysql_escape_string($key);
 
-$resultString = '<label>' . $key . '</label>';
+$resultString = '<div class="large-12 columns large-centered searchKey"><h2>' . $key . '</h2></div>';
 
 $results = searchForEnglish($key);
 
@@ -20,7 +20,7 @@ if (count($results) > 0) {
 			$eng = json_decode($eng);
 		}
 
-		$resultString .= '<div class="dictionaryList">Source: ' . $index. '<ul>';
+		$resultString .= '<div class="small-4 columns dictionaryList">Source: <span>' . $index. '</span><ul>';
 
 		foreach ($eng as $meaning) {
 			$resultString .= '<li>' . $meaning . '</li>';
@@ -31,7 +31,7 @@ if (count($results) > 0) {
 		$resultString .= '</div>';
 	}
 } else {
-	$resultString .= '<label>No result found.</label>';
+	$resultString .= '<div class="large-6 columns large-centered"><label>No result found.</label></div>';
 }
 
 echo $resultString;

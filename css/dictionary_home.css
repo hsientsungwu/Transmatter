@@ -1,0 +1,19 @@
+.dictionaryList {
+	min-height: 150px;
+}
+
+.dictionaryList ul {
+	margin-left: 20px;
+	padding: 5px;
+}
+
+
+
+.searchKey {
+	text-align: center;
+}
+
+.reportbug {
+	font-size: 12px;
+
+}
