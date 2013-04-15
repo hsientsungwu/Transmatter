@@ -28,15 +28,16 @@ function searchForEnglishAutocomplete($key, $dictionaries = array()) {
 	$dictionaries = (!empty($dictionaries) ? $dictionaries : getDefaultDictionaries(TranslationType::CHTOENG));
 
 	$dataResult = array();
-
+	$searchedWords = array();
 	foreach ($dictionaries as $index => $dictionary) {
-		$results = $dbFacile->fetchRows('SELECT id, tch FROM `' . $dictionary['table_name'] . '` WHERE `tch` LIKE ?', array('%'.$key.'%'));
+		$results = $dbFacile->fetchRows('SELECT tch FROM `' . $dictionary['table_name'] . '` WHERE `tch` LIKE ? ORDER BY `tch` ASC', array($key.'%'));
 
-		if (!empty($results)) {
-			foreach ($results as $result) {
-				$dataResult[$index]['id'] = $dictionary['id'];
-				$dataResult[$index]['table'] = $dictionary['table_name'];
-				$dataResult[$index]['tch'] = $result['tch']; 
+		if (count($results) > 0) {
+			foreach ($results as $result) { 
+				if (!in_array($result['tch'], $searchedWords)) {
+					$dataResult[]['tch'] = $result['tch']; 
+					$searchedWords[] = $result['tch'];
+				}
 			}
 		}
 	}
