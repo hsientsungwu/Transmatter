@@ -30,7 +30,7 @@ function searchForEnglishAutocomplete($key, $dictionaries = array()) {
 	$dataResult = array();
 	$searchedWords = array();
 	foreach ($dictionaries as $index => $dictionary) {
-		$results = $dbFacile->fetchRows('SELECT tch FROM `' . $dictionary['table_name'] . '` WHERE `tch` LIKE ? ORDER BY `tch` ASC', array($key.'%'));
+		$results = $dbFacile->fetchRows('SELECT tch FROM `' . $dictionary['table_name'] . '` WHERE `tch` LIKE ? ORDER BY `tch` ASC LIMIT 20', array($key.'%'));
 
 		if (count($results) > 0) {
 			foreach ($results as $result) { 

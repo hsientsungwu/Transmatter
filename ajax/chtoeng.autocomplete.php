@@ -8,7 +8,7 @@ require $_SERVER['DOCUMENT_ROOT'] . "/config.php";
 $key = mysql_escape_string($_REQUEST['term']);
 
 $results = searchForEnglishAutocomplete($key);
-
+sort($results);
 // loop through each zipcode returned and format the response for jQuery
 $data = array();
 
