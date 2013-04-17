@@ -23,13 +23,21 @@ header("Content-Type: text/html; charset=utf-8");
 		  		<h3 style="text-align: center;">Chinese English Translation</h3>
 		  	</div>
 		</div>
+		
 		<div class="row">
-		  	<div class="small-6 small-centered columns search-bar-container">
-		  		<form id="id_searchform" >
-		  			<input type="text" class="large" id="id_key" placeholder="Enter your search here ... ">
-				</form>
-		  	</div>
+		    <div class="large-6 small-centered columns search-bar-container">
+		    	<form id="id_searchform" >
+			      	<div class="row collapse">
+			        	<div class="small-10 columns">
+			          		<input type="text" class="large" id="id_key" placeholder="Enter your search here ... ">
+			        	</div>
+			        <div class="small-2 columns">
+			          	<a href="#" class="button prefix">SEARCH</a>
+			        </div>
+			    </form>
+		     </div>
 		</div>
+		
 		<div class="row">
 			<div class="small-6 small-centered columns">
 				<div class="result-message"></div>
