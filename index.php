@@ -23,21 +23,36 @@ header("Content-Type: text/html; charset=utf-8");
 		  		<h3 style="text-align: center;">Chinese English Translation</h3>
 		  	</div>
 		</div>
-		
+
 		<div class="row">
-		    <div class="large-6 small-centered columns search-bar-container">
+		    <div class="small-6 small-centered columns search-bar-container">
 		    	<form id="id_searchform" >
 			      	<div class="row collapse">
 			        	<div class="small-10 columns">
 			          		<input type="text" class="large" id="id_key" placeholder="Enter your search here ... ">
 			        	</div>
-			        <div class="small-2 columns">
-			          	<a href="#" class="button prefix">SEARCH</a>
+			        	<div class="small-2 columns">
+			          		<a href="#" id="id_searchButton" class="button prefix">SEARCH</a>
+			        	</div>
 			        </div>
 			    </form>
-		     </div>
+
+			    <div class="row">
+			    	<div class="small-8 small-centered columns">
+						<div class="small-4 small-centered columns">
+							<div class="switch tiny round">
+							  	<input id="z" name="switch-z" type="radio" checked>
+							 	<label for="z" onclick="">OFF</label>
+							  	<input id="z1" name="switch-z" type="radio">
+							  	<label for="z1" onclick="">ON</label>
+							  	<span></span>
+							</div>
+					    </div>
+				    </div>
+			    </div>
+				    
+		    </div>	    
 		</div>
-		
 		<div class="row">
 			<div class="small-6 small-centered columns">
 				<div class="result-message"></div>

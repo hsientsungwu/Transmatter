@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 	$('#id_key').bind('keypress', function(e) {
 		var code = (e.keyCode ? e.keyCode : e.which);
-		console.log('1234');
+
 		if(code == 27) { 
 			console.log('asdf');
 			$('#id_key').autocomplete("search");
@@ -16,6 +16,35 @@ $(document).ready(function(){
 
 	$('#id_searchform').submit(function (e) {
 		e.preventDefault();
+		searchForWord();
+	});
+
+	$('#id_searchButton').bind('click', function(e){
+		e.preventDefault();
+		searchForWord();
+	});
+
+	$('.results').on('click', 'a.reportbug', function(e) {
+		e.preventDefault();
+
+		var rel = $(this).attr('rel');
+
+		$.ajax({
+		  	type: "POST",
+		  	url: "/ajax/report.bug.php",
+		  	data: "rel="+rel,
+		  	datatype: "HTML",
+		  	success: function(html) {
+		  		$('#'+rel).html(html);
+		  	},
+		  	error: function() {
+		  		$('#'+rel).html("Unable to retrieve result from the server");
+		  	}
+		});
+	});
+
+	function searchForWord() {
+		$('.results').css({opacity: 0.25});
 
 		var key = $('#id_key').val();
 
@@ -40,24 +69,7 @@ $(document).ready(function(){
 		} else {
 			$('.result-message').html("Search key cannot be blank");
 		}
-	});
 
-	$('.results').on('click', 'a.reportbug', function(e) {
-		e.preventDefault();
-
-		var rel = $(this).attr('rel');
-
-		$.ajax({
-		  	type: "POST",
-		  	url: "/ajax/report.bug.php",
-		  	data: "rel="+rel,
-		  	datatype: "HTML",
-		  	success: function(html) {
-		  		$('#'+rel).html(html);
-		  	},
-		  	error: function() {
-		  		$('#'+rel).html("Unable to retrieve result from the server");
-		  	}
-		});
-	});
+		$('.results').css({opacity: 1});
+	}
 });
