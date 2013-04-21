@@ -43,6 +43,14 @@ $(document).ready(function(){
 		});
 	});
 
+	$('input[name="switch-autocomplete"]').bind('click', function (e) {
+		if ($(this).val() == 'off') {
+			$('#id_key').autocomplete('disable');
+		} else {
+			$('#id_key').autocomplete('enable');
+		}
+	});
+
 	function searchForWord() {
 		$('.results').css({opacity: 0.25});
 

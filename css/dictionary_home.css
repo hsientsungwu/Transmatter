@@ -1,13 +1,9 @@
-.dictionaryList {
-	min-height: 150px;
-}
+
 
 .dictionaryList ul {
 	margin-left: 20px;
 	padding: 5px;
 }
-
-
 
 .searchKey {
 	text-align: center;
@@ -15,5 +11,27 @@
 
 .reportbug {
 	font-size: 12px;
+}
 
+#id_searchform {
+	margin-bottom: 0px;
+}
+
+.autocomplete-toggle {
+	text-align: center;
+}
+
+.autocomplete-toggle span {
+	display: inline-block; 
+	position: relative; 
+	top: -25px;
+}
+
+.autocomplete-toggle #id_autocomplete_toggle {
+	float: none; 
+	display: inline-block;
+}
+
+.autocomplete-toggle .switch {
+	width: 75%;
 }

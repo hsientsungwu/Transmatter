@@ -38,13 +38,14 @@ header("Content-Type: text/html; charset=utf-8");
 			    </form>
 
 			    <div class="row">
-			    	<div class="small-8 small-centered columns">
-						<div class="small-4 small-centered columns">
+			    	<div class="small-8 small-centered columns autocomplete-toggle">
+			    		<span>Autocomplete</span>
+						<div class="small-4 columns" id="id_autocomplete_toggle">
 							<div class="switch tiny round">
-							  	<input id="z" name="switch-z" type="radio" checked>
+							  	<input id="z" name="switch-autocomplete" type="radio" value="off">
 							 	<label for="z" onclick="">OFF</label>
-							  	<input id="z1" name="switch-z" type="radio">
-							  	<label for="z1" onclick="">ON</label>
+							  	<input id="z1" name="switch-autocomplete" type="radio" value="on" checked>
+							  	<label for="z1" onclick="" style="right:11%;">ON</label>
 							  	<span></span>
 							</div>
 					    </div>
