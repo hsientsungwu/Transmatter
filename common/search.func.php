@@ -12,9 +12,9 @@ function searchForEnglish($key, $dictionaries = array()) {
 		$result = $dbFacile->fetchRow('SELECT id, eng FROM `' . $dictionary['table_name'] . '` WHERE `tch` = ?', array($key));
 
 		if (!empty($result)) {
-			$dataResult[$dictionary['name']]['format'] = $dictionary['format'];
-			$dataResult[$dictionary['name']]['english'] = $result['eng'];
-			$dataResult[$dictionary['name']]['id'] = $result['id'];
+			$dataResult[$dictionary['display_name']]['format'] = $dictionary['format'];
+			$dataResult[$dictionary['display_name']]['english'] = $result['eng'];
+			$dataResult[$dictionary['display_name']]['id'] = $result['id'];
 		}
 	}
 

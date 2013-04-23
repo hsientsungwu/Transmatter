@@ -20,13 +20,13 @@ if (count($results) > 0) {
 			$eng = json_decode($eng);
 		}
 
-		$resultString .= '<div class="row"><div class="small-6 columns small-centered dictionaryList"><span>Source: ' . $index. '</span><br />';
+		$resultString .= '<div class="row"><div class="small-6 columns small-centered dictionaryList"><p class="result-title"><span><b>Source: ' . $index. '</b></span></p><p class="result-definition">';
 
 		foreach ($eng as $index => $meaning) {
 			$resultString .= '' . $meaning . ';&nbsp&nbsp&nbsp';
 		}
 
-		$resultString .= '';
+		$resultString .= '</p>';
 		$resultString .= '<p id="ce_' . $index . '-' . $result['id'] .'"><a class="reportbug" rel="ce_' . $index . '-' . $result['id'] .'" href="#">Report a bug</a></p>';
 		$resultString .= '</div></div>';
 	}

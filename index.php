@@ -4,7 +4,7 @@ header("Content-Type: text/html; charset=utf-8");
 
 <html>
 	<head>
-		<title>Steve's Autocomplete Dictionary</title>
+		<title>Chinese English Dictionary</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 		<script type="text/javascript" src="/js/jqueryui/jquery-ui-1.10.2.custom.min.js"></script>

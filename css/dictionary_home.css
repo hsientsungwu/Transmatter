@@ -1,4 +1,13 @@
+.result-title {
+    margin-bottom: 0px;
+    font-size: 13px;
+    text-align: center;
+}
 
+.result-definition {
+	padding: 5px;
+	margin-bottom: 0px;
+}
 
 .dictionaryList ul {
 	margin-left: 20px;
@@ -11,6 +20,7 @@
 
 .reportbug {
 	font-size: 12px;
+	padding: 5px;
 }
 
 #id_searchform {
