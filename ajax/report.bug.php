@@ -18,9 +18,9 @@ if ($raw[0] && is_numeric($raw[1])) {
 	$result = $dbFacile->insert($data, 'word_bug');
 
 	if ($result) {
-		echo 'Bug reported. Thank you for your input';
+		echo '錯誤已提交，感謝您的提報，請繼續支持本服務！';
 	} else {
-		echo 'Error occured. ';
+		echo '很抱歉，系統錯誤，錯誤無法提報';
 	}
 }
 

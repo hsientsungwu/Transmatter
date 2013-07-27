@@ -38,7 +38,7 @@ $(document).ready(function(){
 		  		$('#'+rel).html(html);
 		  	},
 		  	error: function() {
-		  		$('#'+rel).html("Unable to retrieve result from the server");
+		  		$('#'+rel).html("無法聯絡到字典資料庫");
 		  	}
 		});
 	});
@@ -67,15 +67,15 @@ $(document).ready(function(){
 			  			$('.result-message').html("");
 			  			$('.results').html(html);
 			  		} else {
-			  			$('.result-message').html("No result found");
+			  			$('.result-message').html("找不到任何關鍵字的翻譯");
 			  		}
 			  	},
 			  	error: function() {
-			  		$('.result-message').html("Unable to retrieve result from the server");
+			  		$('.result-message').html("無法聯絡到字典資料庫");
 			  	}
 			});
 		} else {
-			$('.result-message').html("Search key cannot be blank");
+			$('.result-message').html("關鍵字不能是空白的");
 		}
 
 		$('.results').css({opacity: 1});
