@@ -5,8 +5,10 @@ header("Content-Type: text/html; charset=utf-8");
 
 <html>
 	<head>
-		<title>漢英字典</title>
+		<title>漢英 TransMatter | Mobile</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 		<script type="text/javascript" src="/js/jqueryui/jquery-ui-1.10.2.custom.min.js"></script>
 		<script type="text/javascript" src="/js/mobile.js"></script>
@@ -20,20 +22,20 @@ header("Content-Type: text/html; charset=utf-8");
 	</head>
 	<body>
 		<div class="row">
-		  	<div class="large-10 large-centered columns">
-		  		<h1 style="text-align: center;">漢英字典</h1>
+		  	<div class="large-12 large-centered columns" style="text-align:center;">
+		  		<img src="/img/logo.png" />
 		  	</div>
 		</div>
 
     	<form id="id_searchform" >
 	      	<div class="row">
 	        	<div class="large-12 columns">
-	          		<input type="text" class="large" id="id_key" placeholder="請輸入中文單字 ... ">
+	          		<input type="text" class="large" id="id_key" placeholder="請輸入中文單字 ... " style="height:50px;">
 	        	</div>
 	        </div>
 	        <div class="row">
 	        	<div class="large-12 columns">
-	          		<a href="#" id="id_searchButton" class="button prefix">搜尋</a>
+	          		<a href="#" id="id_searchButton" class="large button prefix">搜尋</a>
 	        	</div>
 	        </div>
 	    </form>
