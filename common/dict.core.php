@@ -3,7 +3,7 @@ mb_internal_encoding('utf-8');
 header("Content-Type: text/html; charset=utf-8");
 
 // configuration
-require_once($_SERVER['DOCUMENT_ROOT'] . '/../configs/master_config.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/configs/master_config.php');
 
 // special functions
 require_once($_SERVER['DOCUMENT_ROOT'] . '/common/chinese.convert.php');
